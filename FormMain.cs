@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace HelloWorldWinForm
@@ -48,6 +49,28 @@ namespace HelloWorldWinForm
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void 열기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "텍스트 파일(*.txt)| *.txt|모든 파일(*.*)|*.*";
+            DialogResult result = openFileDialog.ShowDialog();
+
+            switch(result)
+            {
+                case DialogResult.OK:
+                    var fileStream = new FileStream(openFileDialog.FileName, FileMode.Open);
+                    using(StreamReader reader = new StreamReader(fileStream))
+                    {
+                        textBox1.Text = reader.ReadToEnd();
+                    }
+                    break;
+                case DialogResult.Cancel:
+                    MessageBox.Show("취소했습니다.");
+                    break;
+            }
+                
         }
     }
 }
