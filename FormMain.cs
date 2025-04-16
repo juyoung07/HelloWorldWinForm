@@ -9,12 +9,14 @@ namespace HelloWorldWinForm
         private const string FILE_DEFAULT_NAME = "제목 없음";
         private const string FILENAME_FILTER = "텍스트 파일(*.txt)| *.txt|모든 파일(*.*)|*.*";
         private const string TEXTBOX_DEFAULT_TEXT = "문구를 입력하세요";
-        
+        private const string FILE_MODIFY_SYMBOL = "*";
+        private string ORIGINAL_FILE_CONTENT = "";
         public FormMain()
         {
             InitializeComponent();
             lblFileName.Text = FILE_DEFAULT_NAME;
             textBox1.Text = TEXTBOX_DEFAULT_TEXT;
+            ORIGINAL_FILE_CONTENT = textBox1.Text;
         }
 
         
@@ -71,6 +73,8 @@ namespace HelloWorldWinForm
                     using(StreamReader reader = new StreamReader(fileStream))
                     {
                         textBox1.Text = reader.ReadToEnd();
+                        lblModify.Text = "";
+                        ORIGINAL_FILE_CONTENT = textBox1.Text;
                     }
                     fileStream.Close();
                     break;
@@ -100,6 +104,8 @@ namespace HelloWorldWinForm
             {
                 writer.Write(textBox1.Text);
                 writer.Close();
+                lblModify.Text = "";
+                ORIGINAL_FILE_CONTENT = textBox1.Text;
             }
         }
 
@@ -120,6 +126,8 @@ namespace HelloWorldWinForm
             {
                 writer.Write(textBox1.Text);
                 writer.Close();
+                lblModify.Text = "";
+                ORIGINAL_FILE_CONTENT = textBox1.Text;
             }
         }
 
@@ -127,6 +135,21 @@ namespace HelloWorldWinForm
         {
             textBox1.Text = TEXTBOX_DEFAULT_TEXT;
             lblFileName.Text = FILE_DEFAULT_NAME;
+            lblModify.Text = "";
+            ORIGINAL_FILE_CONTENT = textBox1.Text;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox1.Text != ORIGINAL_FILE_CONTENT)
+            {
+                lblModify.Text = FILE_MODIFY_SYMBOL;
+            } 
+            else
+            {
+                lblModify.Text = "";
+            }
+            
         }
     }
 }
